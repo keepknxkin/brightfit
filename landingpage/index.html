@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BrightFit — Personalized workouts, smarter progress tracking, and real results. Build strength, lose weight, and stay consistent." />
+  <title>BrightFit — Transform Your Fitness Journey</title>
+  <link rel="icon" href="assets/icon.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #ffb800;
+      --deep-gold: #d89200;
+      --black: #121212;
+      --charcoal: #444444;
+      --white: #ffffff;
+      --soft: #f7f7f7;
+      --border: #eaeaea;
+      --radius: 16px;
+      --radius-lg: 24px;
+      --shadow: 0 4px 24px rgba(18, 18, 18, 0.08);
+      --shadow-gold: 0 8px 32px rgba(255, 184, 0, 0.28);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1120px, 100% - 48px);
+      margin-inline: auto;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
+    }
+
+    .logo-text {
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .logo-text .fit {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--black); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--black);
+      padding: 12px 24px;
+      box-shadow: var(--shadow-gold);
+    }
+
+    .btn-primary:hover {
+      background: #ffc933;
+      box-shadow: 0 10px 36px rgba(255, 184, 0, 0.38);
+    }
+
+    .btn-lg {
+      padding: 16px 32px;
+      font-size: 1.05rem;
+      border-radius: 14px;
+    }
+
+    .nav-cta { display: none; }
+
+    .nav-links {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .nav-links::-webkit-scrollbar { display: none; }
+
+    @media (min-width: 768px) {
+      .nav-cta { display: inline-flex; }
+    }
+
+    @media (max-width: 767px) {
+      .nav-inner { flex-wrap: wrap; }
+      .nav-links {
+        order: 3;
+        width: 100%;
+        gap: 20px;
+        padding-bottom: 2px;
+      }
+      .nav-links a { white-space: nowrap; font-size: 0.82rem; }
+      .nav-cta { margin-left: auto; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 64px 0 80px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (min-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      margin-bottom: 20px;
+    }
+
+    .hero-badge span { color: var(--gold); }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-bottom: 20px;
+    }
+
+    .hero-sub {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 12px;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--charcoal);
+      max-width: 480px;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--black);
+      color: var(--white);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .store-btn:hover {
+      background: #2a2a2a;
+      transform: translateY(-1px);
+    }
+
+    .store-btn svg { flex-shrink: 0; }
+
+    .store-btn-text { line-height: 1.2; }
+    .store-btn-text small {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 500;
+      opacity: 0.75;
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(255, 184, 0, 0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+      z-index: 0;
+    }
+
+    .hero-mascot {
+      position: relative;
+      z-index: 1;
+      width: min(380px, 90vw);
+      filter: drop-shadow(0 20px 40px rgba(18, 18, 18, 0.12));
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    /* ── Sections ── */
+    section { padding: 80px 0; }
+
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--charcoal);
+      max-width: 560px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-header .section-desc { margin-inline: auto; }
+
+    /* ── Features ── */
+    .features { background: var(--soft); }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--gold), var(--deep-gold));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 18px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      color: var(--charcoal);
+      line-height: 1.55;
+    }
+
+    /* ── Levels ── */
+    .levels {
+      text-align: center;
+    }
+
+    .levels-card {
+      background: var(--black);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: clamp(40px, 6vw, 64px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .levels-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 80% 20%, rgba(255, 184, 0, 0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .levels-card .section-label { color: var(--gold); }
+
+    .levels-card .section-title {
+      color: var(--white);
+      position: relative;
+    }
+
+    .levels-card p {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 600px;
+      margin-inline: auto;
+      position: relative;
+    }
+
+    .levels-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 32px;
+      position: relative;
+    }
+
+    .levels-tag {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* ── Plus ── */
+    .plus-card {
+      border: 2px solid var(--gold);
+      border-radius: var(--radius-lg);
+      padding: clamp(36px, 5vw, 56px);
+      background: linear-gradient(160deg, #fffdf5 0%, var(--white) 50%);
+      box-shadow: var(--shadow-gold);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .plus-card { grid-template-columns: 1fr auto; }
+    }
+
+    .plus-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold);
+      color: var(--black);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+
+    .plus-card h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .plus-list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .plus-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+
+    .plus-list li::before {
+      content: '✓';
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      background: var(--gold);
+      color: var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+
+    .plus-visual {
+      text-align: center;
+    }
+
+    .plus-icon-wrap {
+      width: 100px;
+      height: 100px;
+      margin-inline: auto;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    /* ── CTA ── */
+    .cta {
+      background: var(--soft);
+      text-align: center;
+    }
+
+    .cta-inner {
+      max-width: 640px;
+      margin-inline: auto;
+    }
+
+    .cta h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .cta p {
+      font-size: 1.1rem;
+      color: var(--charcoal);
+      margin-bottom: 12px;
+    }
+
+    .cta-tagline {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 36px !important;
+    }
+
+    .cta-tagline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 0.85rem;
+      color: var(--charcoal);
+    }
+
+    .footer-tagline {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--black); }
+
+    /* ── Support & Privacy ── */
+    .legal-section {
+      padding: 80px 0;
+    }
+
+    .legal-section.support-section { background: var(--soft); }
+
+    .legal-wrap {
+      max-width: 720px;
+      margin-inline: auto;
+    }
+
+    .legal-wrap h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin: 36px 0 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .legal-wrap h2:first-of-type { margin-top: 0; }
+
+    .legal-wrap h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .legal-wrap p,
+    .legal-wrap li {
+      font-size: 1rem;
+      color: var(--charcoal);
+      margin-bottom: 14px;
+    }
+
+    .legal-wrap ul {
+      padding-left: 1.4rem;
+      margin-bottom: 14px;
+    }
+
+    .legal-wrap li { margin-bottom: 8px; }
+
+    .legal-wrap a {
+      color: var(--deep-gold);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .legal-wrap a:hover { color: var(--gold); }
+
+    .last-updated {
+      font-size: 0.9rem;
+      color: var(--charcoal);
+      margin-top: 8px;
+    }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin: 32px 0 40px;
+    }
+
+    .support-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .support-card p { margin-bottom: 0; font-size: 0.95rem; }
+
+    .contact-box {
+      background: var(--black);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 24px 0 0;
+    }
+
+    .contact-box h3 {
+      color: var(--white);
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .contact-box p { color: rgba(255, 255, 255, 0.8); }
+
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+      background: var(--gold);
+      color: var(--black);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 22px;
+      border-radius: 12px;
+      text-decoration: none !important;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .contact-email:hover {
+      background: #ffc933;
+      transform: translateY(-1px);
+      color: var(--black);
+    }
+
+    /* ── Reveal animation ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/icon.png" alt="BrightFit" width="44" height="44" />
+        <span class="logo-text">Bright<span class="fit">Fit</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#levels">For Everyone</a></li>
+        <li><a href="#plus">BrightFit Plus</a></li>
+        <li><a href="#support">Support</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+      </ul>
+      <a href="#download" class="btn btn-primary nav-cta">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content reveal">
+        <div class="hero-badge">Strength · Simplicity · <span>Success</span></div>
+        <h1>Transform Your Fitness Journey</h1>
+        <p class="hero-sub">Personalized workouts. Smarter progress tracking. Real results.</p>
+        <p class="hero-desc">
+          BrightFit helps you build strength, lose weight, and stay consistent with a fitness plan tailored specifically to your goals. No confusion. No guesswork.
+        </p>
+        <div class="hero-actions" id="download">
+          <a href="https://apps.apple.com/app/brightfit" class="store-btn" target="_blank" rel="noopener">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span class="store-btn-text"><small>Download on the</small>App Store</span>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.brightfit.app" class="store-btn" target="_blank" rel="noopener">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a1.004 1.004 0 01-.395-.37 1.004 1.004 0 01-.14-.49V2.004c0-.18.05-.35.14-.49a1.004 1.004 0 01.395-.37m1.375 20.015L14.75 14.5l-3.063-3.063L4.984 21.83M20.25 10.75l-3.5-2.02-3.25 3.25 3.25 3.25 3.5-2.02c.55-.32.88-.9.88-1.48s-.33-1.16-.88-1.48M14.75 9.5l6.375-3.68a1.004 1.004 0 00.5-.13c.18 0 .35.05.49.14a1.004 1.004 0 01.37.39v14.52a1.004 1.004 0 01-.37.39 1.004 1.004 0 01-.49.14 1.004 1.004 0 00-.5-.13L14.75 14.5V9.5z"/></svg>
+            <span class="store-btn-text"><small>Get it on</small>Google Play</span>
+          </a>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <img src="assets/mascot.png" alt="BrightFit mascot" class="hero-mascot" width="380" height="380" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-label">Why BrightFit?</p>
+        <h2 class="section-title">Everything you need to reach your goals</h2>
+        <p class="section-desc">Clear, effective workouts that actually work — designed around you.</p>
+      </div>
+      <div class="features-grid">
+        <article class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">💪</div>
+          <h3>Personalized Workout Plans</h3>
+          <p>Get workouts designed for your fitness level, goals, and experience. Whether you're a beginner or advanced, BrightFit adapts to you.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">📊</div>
+          <h3>Track Your Progress</h3>
+          <p>Monitor your workouts, improvements, and achievements over time. Stay motivated by seeing real progress.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">🔥</div>
+          <h3>Build Lasting Habits</h3>
+          <p>Consistency is everything. BrightFit helps you stay on track with structured routines that fit your lifestyle.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">🧠</div>
+          <h3>Train Smarter</h3>
+          <p>Follow simple, effective plans designed to maximize results without wasting time.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Built for every level -->
+  <section class="levels" id="levels">
+    <div class="container">
+      <div class="levels-card reveal">
+        <p class="section-label">Built for Every Level</p>
+        <h2 class="section-title">From your first rep to your next PR</h2>
+        <p>From beginners starting their first workout to experienced athletes looking for structure, BrightFit helps everyone stay consistent and improve.</p>
+        <div class="levels-tags">
+          <span class="levels-tag">Beginners</span>
+          <span class="levels-tag">Intermediate</span>
+          <span class="levels-tag">Advanced</span>
+          <span class="levels-tag">Athletes</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BrightFit Plus -->
+  <section id="plus">
+    <div class="container">
+      <div class="plus-card reveal">
+        <div>
+          <div class="plus-badge">⭐ BrightFit Plus</div>
+          <h2>Upgrade your experience</h2>
+          <ul class="plus-list">
+            <li>Advanced workout plans</li>
+            <li>Premium features</li>
+            <li>Faster progress tracking tools</li>
+            <li>Enhanced fitness guidance</li>
+          </ul>
+        </div>
+        <div class="plus-visual">
+          <div class="plus-icon-wrap">
+            <img src="assets/icon.png" alt="BrightFit Plus" width="100" height="100" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="cta">
+    <div class="container cta-inner reveal">
+      <h2>Start Your Journey Today</h2>
+      <p>Take control of your health and fitness with BrightFit.</p>
+      <p class="cta-tagline">Your goals. Your plan. <em>Your results.</em></p>
+      <div class="cta-actions">
+        <a href="#download" class="btn btn-primary btn-lg">Get Started Free</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Support -->
+  <section class="legal-section support-section" id="support">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-label">Support</p>
+        <h2 class="section-title">We're here to help</h2>
+        <p class="section-desc">Need help with BrightFit? Reach out and we'll get back to you within 1–2 business days.</p>
+      </div>
+      <div class="legal-wrap reveal">
+        <div class="contact-box">
+          <h3>Contact Us</h3>
+          <p>Send us an email with your question or issue.</p>
+          <a href="mailto:nathan.brightfit1@gmail.com" class="contact-email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            nathan.brightfit1@gmail.com
+          </a>
+        </div>
+
+        <div class="support-grid">
+          <div class="support-card">
+            <h3>Account &amp; Login</h3>
+            <p>Issues signing in, resetting your account, or syncing data across devices.</p>
+          </div>
+          <div class="support-card">
+            <h3>Workouts &amp; Progress</h3>
+            <p>Questions about workout plans, tracking, routines, or achievements.</p>
+          </div>
+          <div class="support-card">
+            <h3>BrightFit Plus</h3>
+            <p>Help with subscriptions, billing, premium features, or restoring purchases.</p>
+          </div>
+          <div class="support-card">
+            <h3>Bug Reports</h3>
+            <p>Something not working right? Let us know what happened and we'll look into it.</p>
+          </div>
+        </div>
+
+        <h2>Before You Email</h2>
+        <p>To help us resolve your issue faster, please include:</p>
+        <ul>
+          <li>A brief description of the problem</li>
+          <li>Your device type (iPhone, Android, etc.) and OS version</li>
+          <li>Your BrightFit app version, if known</li>
+          <li>Screenshots, if applicable</li>
+        </ul>
+
+        <h2>Subscriptions &amp; Billing</h2>
+        <p>
+          BrightFit Plus subscriptions are managed through the Apple App Store or Google Play Store. To cancel, change, or request a refund, use your device's subscription settings or the store where you purchased.
+        </p>
+        <p>
+          If you're having trouble with a subscription, email us at
+          <a href="mailto:nathan.brightfit1@gmail.com">nathan.brightfit1@gmail.com</a>
+          and include the email associated with your store account.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy Policy -->
+  <section class="legal-section" id="privacy">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-label">Privacy Policy</p>
+        <h2 class="section-title">Your privacy matters</h2>
+        <p class="section-desc">How BrightFit collects, uses, and protects your data.</p>
+        <p class="last-updated">Last updated: June 10, 2026</p>
+      </div>
+      <div class="legal-wrap reveal">
+
+        <h2>Introduction</h2>
+        <p>
+          BrightFit ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy describes how we collect, use, store, and share information when you use the BrightFit mobile application and related services.
+        </p>
+        <p>
+          By using BrightFit, you agree to the collection and use of information in accordance with this policy. If you do not agree, please do not use the app.
+        </p>
+
+        <h2>Information We Collect</h2>
+        <p>We may collect the following types of information:</p>
+        <ul>
+          <li><strong>Account information</strong> — such as your name, email address, or other details you provide when creating an account or contacting support.</li>
+          <li><strong>Fitness and workout data</strong> — including workout history, exercise logs, routines, progress metrics, achievements, and goals you set within the app.</li>
+          <li><strong>Device information</strong> — such as device type, operating system version, app version, and general technical identifiers needed to run and improve the app.</li>
+          <li><strong>Usage data</strong> — including how you interact with features, screens viewed, and general app performance data.</li>
+          <li><strong>Subscription and purchase data</strong> — if you subscribe to BrightFit Plus, payment and subscription status are processed through Apple App Store or Google Play. We do not store your full payment card details.</li>
+        </ul>
+
+        <h2>How We Use Your Information</h2>
+        <p>We use the information we collect to:</p>
+        <ul>
+          <li>Provide, personalize, and improve your workout experience</li>
+          <li>Track your fitness progress and display achievements</li>
+          <li>Process subscriptions and manage BrightFit Plus features</li>
+          <li>Respond to support requests and communicate with you</li>
+          <li>Fix bugs, improve performance, and develop new features</li>
+          <li>Comply with legal obligations</li>
+        </ul>
+
+        <h2>Data Storage and Security</h2>
+        <p>
+          Your data is stored on your device and, where applicable, on secure servers. We take reasonable measures to protect your information from unauthorized access, loss, or misuse. However, no method of transmission or storage is 100% secure, and we cannot guarantee absolute security.
+        </p>
+
+        <h2>Third-Party Services</h2>
+        <p>
+          BrightFit may use third-party services to help operate the app, including payment processors (Apple and Google), analytics tools, and subscription management providers. These services may collect information according to their own privacy policies.
+        </p>
+
+        <h2>Data Sharing</h2>
+        <p>We do not sell your personal information. We may share data only in the following circumstances:</p>
+        <ul>
+          <li>With service providers who help us operate the app, under confidentiality agreements</li>
+          <li>When required by law, legal process, or government request</li>
+          <li>To protect the rights, safety, and security of BrightFit, our users, or others</li>
+          <li>With your consent</li>
+        </ul>
+
+        <h2>Your Rights and Choices</h2>
+        <p>Depending on your location, you may have the right to access, correct, or delete your data, withdraw consent, or object to certain processing.</p>
+        <p>
+          To exercise these rights, contact us at <a href="mailto:nathan.brightfit1@gmail.com">nathan.brightfit1@gmail.com</a>. You may also delete the app from your device at any time.
+        </p>
+
+        <h2>Children's Privacy</h2>
+        <p>
+          BrightFit is not intended for children under 13 (or the minimum age required in your jurisdiction). We do not knowingly collect personal information from children.
+        </p>
+
+        <h2>Changes to This Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. When we do, we will revise the "Last updated" date above. Continued use of BrightFit after changes are posted constitutes your acceptance of the updated policy.
+        </p>
+
+        <h2>Contact Us</h2>
+        <p>
+          Questions about this Privacy Policy? Email us at
+          <a href="mailto:nathan.brightfit1@gmail.com">nathan.brightfit1@gmail.com</a>.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/icon.png" alt="" width="36" height="36" />
+        <span class="logo-text" style="font-size:1.1rem">Bright<span class="fit">Fit</span></span>
+      </a>
+      <ul class="footer-links">
+        <li><a href="#support">Support</a></li>
+        <li><a href="#privacy">Privacy Policy</a></li>
+      </ul>
+      <p class="footer-tagline">Strength. Simplicity. Success.</p>
+      <p class="footer-copy">&copy; 2026 BrightFit. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+    reveals.forEach((el) => observer.observe(el));
+    document.querySelector('.hero .reveal')?.classList.add('visible');
+  </script>
+</body>
+</html>

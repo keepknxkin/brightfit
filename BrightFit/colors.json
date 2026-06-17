@@ -1,0 +1,13 @@
+{
+  "primary": {
+    "primaryGold": "#FFB800",
+    "deepGold": "#D89200"
+  },
+  "neutrals": {
+    "matteBlack": "#121212",
+    "charcoalGray": "#444444",
+    "softWhite": "#F7F7F7",
+    "cardWhite": "#FFFFFF",
+    "borderGray": "#EAEAEA"
+  }
+}

@@ -1,0 +1,6 @@
+# Environment secrets
+.env
+.env*.local
+
+# Superwall editor session tokens (local pairing)
+.superwall/

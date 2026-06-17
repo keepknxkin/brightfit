@@ -1,0 +1,238 @@
+BUILD PROMPT — BrightFit Landing Page (full rebuild)
+====================================================
+
+Use this prompt to rebuild the entire BrightFit marketing site from scratch.
+Place all files inside: landingpage/
+
+Copy app assets from:
+  - BrightFit/assets/icon.png  →  landingpage/assets/icon.png
+  - BrightFit/images/mascot.png  →  landingpage/assets/mascot.png
+
+
+GOAL
+----
+Build a modern, responsive, self-contained marketing website for the BrightFit
+fitness app. Single-page main site (index.html) with Support and Privacy Policy
+sections embedded on the page. Also create standalone privacy-policy.html and
+support.html pages (for direct URLs / App Store compliance). All pages share
+consistent branding and navigation.
+
+
+BRAND & DESIGN
+--------------
+Match the BrightFit mobile app welcome screen aesthetic.
+
+Colors:
+  - Primary gold:     #FFB800
+  - Deep gold:        #D89200
+  - Matte black:      #121212
+  - Charcoal gray:    #444444
+  - White:            #FFFFFF
+  - Soft background:  #F7F7F7
+  - Border gray:      #EAEAEA
+
+Typography:
+  - Font: Plus Jakarta Sans (Google Fonts)
+  - Logo wordmark: "Bright" (black, bold 900) + "Fit" (gold, bold 900, italic)
+  - Tagline: "STRENGTH. SIMPLICITY. SUCCESS." (uppercase, letter-spaced)
+
+Design style:
+  - Clean, bold, fitness-focused
+  - Gold CTA buttons with soft gold shadow
+  - Rounded corners (16px cards, 14px buttons)
+  - Sticky nav with blur backdrop
+  - Scroll-reveal fade-in animations (IntersectionObserver)
+  - Floating mascot animation in hero
+  - Fully responsive (mobile + desktop)
+  - Nav links scroll horizontally on mobile
+
+
+FILE STRUCTURE
+--------------
+landingpage/
+  index.html              — main single-page site (all sections)
+  privacy-policy.html     — standalone privacy policy page
+  support.html            — standalone support page
+  common.css              — shared styles for standalone pages
+  assets/
+    icon.png              — app icon
+    mascot.png            — mascot hero image
+  landingpage.md          — original content brief (reference only)
+  rebuild-prompt.txt      — this file
+
+
+MAIN PAGE — index.html
+----------------------
+Single HTML file with embedded CSS. All marketing + legal content on one page.
+
+NAVBAR (sticky):
+  - Logo links to index.html (icon + BrightFit wordmark)
+  - Nav links (anchor scroll):
+      Features        → #features
+      For Everyone    → #levels
+      BrightFit Plus  → #plus
+      Support         → #support
+      Privacy         → #privacy
+  - "Get Started" button → #download
+
+SECTIONS (in order):
+
+1. HERO (#download)
+   Headline:    Transform Your Fitness Journey
+   Subhead:     Personalized workouts. Smarter progress tracking. Real results.
+   Body:        BrightFit helps you build strength, lose weight, and stay
+                consistent with a fitness plan tailored specifically to your
+                goals. No confusion. No guesswork.
+   Badge:       Strength · Simplicity · Success
+   Visual:      Floating mascot image with gold radial glow behind it
+   CTAs:        App Store + Google Play download buttons
+     - App Store:  https://apps.apple.com/app/brightfit
+     - Google Play: https://play.google.com/store/apps/details?id=com.brightfit.app
+
+2. FEATURES (#features) — soft gray background
+   Label:       Why BrightFit?
+   Title:       Everything you need to reach your goals
+   Subtitle:    Clear, effective workouts that actually work — designed around you.
+   Four feature cards:
+     💪 Personalized Workout Plans
+        Get workouts designed for your fitness level, goals, and experience.
+        Whether you're a beginner or advanced, BrightFit adapts to you.
+     📊 Track Your Progress
+        Monitor your workouts, improvements, and achievements over time.
+        Stay motivated by seeing real progress.
+     🔥 Build Lasting Habits
+        Consistency is everything. BrightFit helps you stay on track with
+        structured routines that fit your lifestyle.
+     🧠 Train Smarter
+        Follow simple, effective plans designed to maximize results
+        without wasting time.
+
+3. BUILT FOR EVERY LEVEL (#levels)
+   Dark card (black background, gold accent glow)
+   Label:       Built for Every Level
+   Title:       From your first rep to your next PR
+   Body:        From beginners starting their first workout to experienced
+                athletes looking for structure, BrightFit helps everyone stay
+                consistent and improve.
+   Tags:        Beginners, Intermediate, Advanced, Athletes
+
+4. BRIGHTFIT PLUS (#plus)
+   Gold-bordered premium card
+   Badge:       ⭐ BrightFit Plus
+   Title:       Upgrade your experience
+   Bullet list:
+     - Advanced workout plans
+     - Premium features
+     - Faster progress tracking tools
+     - Enhanced fitness guidance
+   Visual:      App icon in rounded card
+
+5. FINAL CTA
+   Title:       Start Your Journey Today
+   Body:        Take control of your health and fitness with BrightFit.
+   Tagline:     Your goals. Your plan. Your results.
+   Button:      Get Started Free → #download
+
+6. SUPPORT (#support) — soft gray background
+   Label:       Support
+   Title:       We're here to help
+   Subtitle:    Need help with BrightFit? Reach out and we'll get back to you
+                within 1–2 business days.
+
+   Contact box (black background, gold email button):
+     Email: nathan.brightfit1@gmail.com
+     mailto link on button
+
+   Four support category cards:
+     - Account & Login — signing in, resetting account, syncing data
+     - Workouts & Progress — plans, tracking, routines, achievements
+     - BrightFit Plus — subscriptions, billing, premium, restore purchases
+     - Bug Reports — report issues
+
+   "Before You Email" — ask user to include:
+     - Brief description of the problem
+     - Device type and OS version
+     - BrightFit app version
+     - Screenshots if applicable
+
+   "Subscriptions & Billing":
+     Managed via Apple App Store or Google Play. Contact
+     nathan.brightfit1@gmail.com for subscription issues.
+
+7. PRIVACY POLICY (#privacy)
+   Label:       Privacy Policy
+   Title:       Your privacy matters
+   Subtitle:    How BrightFit collects, uses, and protects your data.
+   Last updated: June 10, 2026
+
+   Full policy sections:
+     - Introduction
+     - Information We Collect (account, fitness/workout data, device info,
+       usage data, subscription/purchase data)
+     - How We Use Your Information
+     - Data Storage and Security
+     - Third-Party Services (Apple, Google, analytics, subscription providers)
+     - Data Sharing (we do not sell personal info)
+     - Your Rights and Choices
+     - Children's Privacy (not for under 13)
+     - Changes to This Policy
+     - Contact Us → nathan.brightfit1@gmail.com
+
+FOOTER:
+  - Logo
+  - Links: Support (#support), Privacy Policy (#privacy)
+  - Tagline: Strength. Simplicity. Success.
+  - © 2026 BrightFit. All rights reserved.
+
+
+STANDALONE PAGES
+----------------
+
+privacy-policy.html
+  - Uses common.css + Plus Jakarta Sans
+  - Same nav as index but links to index.html#sections
+  - Full privacy policy content (same as #privacy section on index)
+  - Footer links to index.html#support and index.html#privacy
+  - Useful as a direct URL for App Store Connect
+
+support.html
+  - Uses common.css + Plus Jakarta Sans
+  - Same nav pattern
+  - Full support content (same as #support section on index)
+  - Contact email: nathan.brightfit1@gmail.com
+  - Privacy link points to index.html#privacy
+  - Footer links to index.html#support and index.html#privacy
+
+
+common.css (for standalone pages)
+  - Shared CSS variables (gold, black, charcoal, etc.)
+  - Nav, footer, page hero, page content, support cards, contact box styles
+  - Match index.html branding exactly
+
+
+TECHNICAL REQUIREMENTS
+----------------------
+  - Pure HTML + CSS + minimal vanilla JS (scroll reveal only)
+  - No build step, no frameworks
+  - Mobile-first responsive layout
+  - Smooth scroll for anchor links
+  - Meta description + favicon on all pages
+  - Accessible alt text on images
+  - External links open in new tab with rel="noopener"
+
+
+CONTENT SOURCE
+--------------
+Original marketing copy lives in landingpage/landingpage.md — use it as the
+content brief. All sections above expand on that brief with full legal/support
+copy and design structure.
+
+
+QUICK REBUILD COMMAND (for AI agent)
+-------------------------------------
+"Build the BrightFit landing page per landingpage/rebuild-prompt.txt and
+landingpage/landingpage.md. Create index.html (single-page with all sections),
+privacy-policy.html, support.html, common.css, and landingpage/assets/ with
+icon.png and mascot.png copied from the BrightFit app. Use gold #FFB800 and
+black #121212 branding. Support email: nathan.brightfit1@gmail.com. Navbar on
+index must link to #features, #levels, #plus, #support, and #privacy."
