@@ -15,7 +15,7 @@ import WorkoutSessionScreen, { SessionExercise } from '@/screens/WorkoutSessionS
 import { EXERCISE_POOL } from '@/screens/InstantWorkoutScreen';
 import CountdownOverlay from '@/components/CountdownOverlay';
 import LoginModal from '@/components/LoginModal';
-import { STORAGE_KEYS, getJson, setJson } from '@/utils/storage';
+import { STORAGE_KEYS, getJson, setJson, removeKey } from '@/utils/storage';
 import { mergeProgress, serializeProgress, type SavedProgress } from '@/utils/progressStorage';
 
 const isExpoGo = Constants.executionEnvironment === 'storeClient';
@@ -116,7 +116,7 @@ function AppContent() {
   const [screen, setScreen] = useState<Screen>('welcome');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginGatePassed, setLoginGatePassed] = useState(false);
-  const [loginModalSource, setLoginModalSource] = useState<'welcome' | 'home'>('welcome');
+  const [loginModalSource, setLoginModalSource] = useState<'welcome' | 'home' | 'namePrompt'>('welcome');
   const [editingFromSummary, setEditingFromSummary] = useState(false);
   const [onboarding, setOnboarding] = useState<OnboardingData>({
     name: '',
@@ -216,7 +216,7 @@ function AppContent() {
   });
   const { update: updateUser, identify: identifyUser } = useUser();
 
-  const openLogin = (source: 'welcome' | 'home') => {
+  const openLogin = (source: 'welcome' | 'home' | 'namePrompt') => {
     setLoginModalSource(source);
     setShowLoginModal(true);
   };
@@ -240,7 +240,9 @@ function AppContent() {
     if (account) merged = mergeProgress(merged, account);
 
     hydrateFromSaved(merged);
-    if (merged.onboarding) setOnboarding(merged.onboarding);
+    if (merged.onboarding) {
+      setOnboarding((prev) => ({ ...prev, ...merged.onboarding }));
+    }
 
     await identifyUser(session.userId, { email: session.email });
 
@@ -252,9 +254,12 @@ function AppContent() {
       profilePhotoUri: merged.profilePhotoUri,
       earnedAchievements: merged.earnedAchievements,
       onboarding: merged.onboarding ?? onboarding,
-    });
+    }, session.userId);
 
     await setJson(STORAGE_KEYS.ONBOARDING_COMPLETE, true);
+    await removeKey(STORAGE_KEYS.SHOW_LOGIN_PROMPT);
+    setLoginGatePassed(true);
+
     if (loginModalSource === 'welcome') {
       setScreen('home');
     }
@@ -658,7 +663,8 @@ function AppContent() {
         <HomeScreen
           name={onboarding.name}
           onNameChange={handleNameChange}
-          allowNamePrompt={loginGatePassed}
+          onSignIn={() => openLogin('namePrompt')}
+          allowNamePrompt={loginGatePassed && !(showLoginModal && loginModalSource === 'namePrompt')}
           fitnessLevel={onboarding.fitnessLevel}
           workoutsPerWeek={onboarding.workoutsPerWeek}
           fitnessFocus={onboarding.fitnessFocus}
@@ -670,13 +676,20 @@ function AppContent() {
         visible={showLoginModal}
         onClose={handleLoginModalClose}
         onSuccess={handleLoginSuccess}
-        title={loginModalSource === 'home' ? 'Keep your progress safe' : 'Welcome back'}
+        title={
+          loginModalSource === 'home'
+            ? 'Keep your progress safe'
+            : 'Welcome back'
+        }
         subtitle={
           loginModalSource === 'home'
             ? 'Create an account or log in so your workouts, streaks, and achievements stay saved across devices.'
-            : 'Log in to pick up right where you left off.'
+            : loginModalSource === 'namePrompt'
+              ? 'Sign in to load your saved workouts, streaks, and profile across devices.'
+              : 'Enter the email and password for your registered account.'
         }
         allowDismiss
+        allowSignUp={loginModalSource === 'home'}
       />
     </>
   );

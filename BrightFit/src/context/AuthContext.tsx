@@ -25,6 +25,7 @@ import {
 } from '@/utils/progressStorage';
 
 const SESSION_KEY = 'brightfit_auth_session';
+const ACCOUNT_NOT_REGISTERED = 'Account not registered.';
 const isExpoGo = Constants.executionEnvironment === 'storeClient';
 const useCloudAuth = isSupabaseConfigured && !isExpoGo;
 
@@ -48,7 +49,7 @@ interface AuthContextValue {
   signUp: (email: string, password: string) => Promise<AuthSession>;
   signOut: () => Promise<void>;
   loadProgress: () => Promise<SavedProgress | null>;
-  saveProgress: (progress: Omit<SavedProgress, 'updatedAt'>) => Promise<void>;
+  saveProgress: (progress: Omit<SavedProgress, 'updatedAt'>, userId?: string) => Promise<void>;
   markLoginPromptPending: () => Promise<void>;
   consumeLoginPrompt: () => Promise<boolean>;
 }
@@ -65,6 +66,25 @@ async function readLocalUsers(): Promise<LocalUserRecord[]> {
 
 async function writeLocalUsers(users: LocalUserRecord[]) {
   await setJson(STORAGE_KEYS.LOCAL_USERS, users);
+}
+
+async function readRegisteredEmails(): Promise<string[]> {
+  return (await getJson<string[]>(STORAGE_KEYS.REGISTERED_EMAILS)) ?? [];
+}
+
+async function markEmailRegistered(email: string) {
+  const normalized = normalizeEmail(email);
+  const emails = await readRegisteredEmails();
+  if (emails.includes(normalized)) return;
+  await setJson(STORAGE_KEYS.REGISTERED_EMAILS, [...emails, normalized]);
+}
+
+async function isEmailRegistered(email: string): Promise<boolean> {
+  const normalized = normalizeEmail(email);
+  const users = await readLocalUsers();
+  if (users.some((u) => u.email === normalized)) return true;
+  const emails = await readRegisteredEmails();
+  return emails.includes(normalized);
 }
 
 async function readSession(): Promise<AuthSession | null> {
@@ -175,6 +195,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         email: normalized,
         mode: 'supabase',
       };
+      await markEmailRegistered(normalized);
       await writeSession(session);
       setUser(session);
       return session;
@@ -190,6 +211,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await writeLocalUsers([...users, { userId, email: normalized, passwordHash }]);
 
     const session: AuthSession = { userId, email: normalized, mode: 'local' };
+    await markEmailRegistered(normalized);
     await writeSession(session);
     setUser(session);
     return session;
@@ -203,11 +225,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const supabase = await getCloudSupabase();
     if (supabase) {
+      const registered = await isEmailRegistered(normalized);
       const { data, error } = await supabase.auth.signInWithPassword({
         email: normalized,
         password,
       });
-      if (error) throw new Error(error.message);
+
+      if (error) {
+        const invalidCredentials =
+          error.message.toLowerCase().includes('invalid login credentials') ||
+          error.message.toLowerCase().includes('invalid credentials');
+
+        if (!registered && invalidCredentials) {
+          throw new Error(ACCOUNT_NOT_REGISTERED);
+        }
+        if (registered && invalidCredentials) {
+          throw new Error('Incorrect password.');
+        }
+        throw new Error(error.message);
+      }
+
       if (!data.user) throw new Error('Could not sign in.');
 
       const session: AuthSession = {
@@ -215,6 +252,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         email: normalized,
         mode: 'supabase',
       };
+      await markEmailRegistered(normalized);
       await writeSession(session);
       setUser(session);
       return session;
@@ -222,7 +260,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const users = await readLocalUsers();
     const record = users.find((u) => u.email === normalized);
-    if (!record) throw new Error('No account found for this email. Create one first.');
+    if (!record) throw new Error(ACCOUNT_NOT_REGISTERED);
 
     const passwordHash = hashPasswordLocal(password, normalized);
     if (passwordHash !== record.passwordHash) {
@@ -252,13 +290,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [user]);
 
   const saveProgress = useCallback(
-    async (progress: Omit<SavedProgress, 'updatedAt'>) => {
+    async (progress: Omit<SavedProgress, 'updatedAt'>, overrideUserId?: string) => {
       const { serializeProgress } = await import('@/utils/progressStorage');
       const payload = serializeProgress(progress);
+      const targetUserId = overrideUserId ?? user?.userId;
 
-      if (user) {
-        await setJson(userProgressKey(user.userId), payload);
-        await uploadCloudProgress(user.userId, payload);
+      if (targetUserId) {
+        await setJson(userProgressKey(targetUserId), payload);
+        await uploadCloudProgress(targetUserId, payload);
         return;
       }
 
