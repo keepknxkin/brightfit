@@ -63,20 +63,16 @@ async function buildAdaptiveForeground() {
     .toBuffer();
 }
 
-/** Splash — logo only on transparent PNG (no white squircle box). */
+/** Splash — rounded logo on transparent PNG (no white corner triangles). */
 async function buildSplashImage() {
-  const trimmed = await sharp(inputPath)
-    .trim({ threshold: 15 })
-    .ensureAlpha()
-    .png()
-    .toBuffer();
+  const LOGO_SIZE = 512;
+  const cornerRadius = Math.round(LOGO_SIZE * 0.2237);
+  const mask = await createRoundedMask(LOGO_SIZE, cornerRadius);
 
-  const LOGO_SIZE = 400;
-  return sharp(trimmed)
-    .resize(LOGO_SIZE, LOGO_SIZE, {
-      fit: 'contain',
-      background: { r: 255, g: 255, b: 255, alpha: 0 },
-    })
+  return sharp(inputPath)
+    .resize(LOGO_SIZE, LOGO_SIZE, { fit: 'contain', background: WHITE })
+    .ensureAlpha()
+    .composite([{ input: mask, blend: 'dest-in' }])
     .png()
     .toBuffer();
 }
