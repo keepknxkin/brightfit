@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Modal,
   View,
@@ -21,6 +21,7 @@ interface Props {
   title?: string;
   subtitle?: string;
   allowDismiss?: boolean;
+  allowSignUp?: boolean;
 }
 
 export default function LoginModal({
@@ -30,6 +31,7 @@ export default function LoginModal({
   title = 'Save your progress',
   subtitle = 'Sign in to keep your workouts, streaks, and achievements synced across devices.',
   allowDismiss = true,
+  allowSignUp = true,
 }: Props) {
   const { signIn, signUp } = useAuth();
   const [mode, setMode] = useState<'login' | 'signup'>('login');
@@ -42,6 +44,14 @@ export default function LoginModal({
     setError('');
     setPassword('');
   };
+
+  useEffect(() => {
+    if (!visible) return;
+    setMode('login');
+    setEmail('');
+    setPassword('');
+    setError('');
+  }, [visible, allowSignUp]);
 
   const handleSubmit = async () => {
     setError('');
@@ -82,20 +92,22 @@ export default function LoginModal({
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subtitle}>{subtitle}</Text>
 
-          <View style={styles.modeRow}>
-            <TouchableOpacity
-              style={[styles.modeTab, mode === 'login' && styles.modeTabActive]}
-              onPress={() => switchMode('login')}
-            >
-              <Text style={[styles.modeTabText, mode === 'login' && styles.modeTabTextActive]}>Log In</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.modeTab, mode === 'signup' && styles.modeTabActive]}
-              onPress={() => switchMode('signup')}
-            >
-              <Text style={[styles.modeTabText, mode === 'signup' && styles.modeTabTextActive]}>Sign Up</Text>
-            </TouchableOpacity>
-          </View>
+          {allowSignUp ? (
+            <View style={styles.modeRow}>
+              <TouchableOpacity
+                style={[styles.modeTab, mode === 'login' && styles.modeTabActive]}
+                onPress={() => switchMode('login')}
+              >
+                <Text style={[styles.modeTabText, mode === 'login' && styles.modeTabTextActive]}>Log In</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modeTab, mode === 'signup' && styles.modeTabActive]}
+                onPress={() => switchMode('signup')}
+              >
+                <Text style={[styles.modeTabText, mode === 'signup' && styles.modeTabTextActive]}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
 
           <TextInput
             style={styles.input}
@@ -128,7 +140,7 @@ export default function LoginModal({
               <ActivityIndicator color={colors.matteBlack} />
             ) : (
               <Text style={styles.submitText}>
-                {mode === 'login' ? 'Log In' : 'Create Account'}
+                {allowSignUp && mode === 'signup' ? 'Create Account' : 'Log In'}
               </Text>
             )}
           </TouchableOpacity>

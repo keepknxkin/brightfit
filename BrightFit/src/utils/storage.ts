@@ -6,6 +6,7 @@ export const STORAGE_KEYS = {
   ONBOARDING_COMPLETE: '@brightfit/onboarding_complete',
   SHOW_LOGIN_PROMPT: '@brightfit/show_login_prompt',
   LOCAL_USERS: '@brightfit/local_users',
+  REGISTERED_EMAILS: '@brightfit/registered_emails',
   APP_REVIEW: '@brightfit/app_review',
   APP_REVIEW_DISMISSED: '@brightfit/app_review_dismissed',
 } as const;

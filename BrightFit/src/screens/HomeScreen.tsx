@@ -282,6 +282,7 @@ const DAYS_LABELS: Record<string, string> = {
 interface HomeScreenProps {
   name?: string;
   onNameChange?: (name: string) => void;
+  onSignIn?: () => void;
   allowNamePrompt?: boolean;
   onGetStarted?: () => void;
   fitnessLevel?: string;
@@ -289,7 +290,7 @@ interface HomeScreenProps {
   fitnessFocus?: string;
 }
 
-export default function HomeScreen({ name = '', onNameChange, allowNamePrompt = true, onGetStarted, fitnessLevel = '', workoutsPerWeek = '', fitnessFocus = '' }: HomeScreenProps) {
+export default function HomeScreen({ name = '', onNameChange, onSignIn, allowNamePrompt = true, onGetStarted, fitnessLevel = '', workoutsPerWeek = '', fitnessFocus = '' }: HomeScreenProps) {
   const displayName = name.trim();
   const showNamePrompt = allowNamePrompt && !displayName;
   const [activeTab, setActiveTab] = useState(0);
@@ -360,6 +361,7 @@ export default function HomeScreen({ name = '', onNameChange, allowNamePrompt = 
     <NamePromptModal
       visible={showNamePrompt}
       onSubmit={(value) => onNameChange?.(value)}
+      onSignIn={onSignIn}
     />
   );
 

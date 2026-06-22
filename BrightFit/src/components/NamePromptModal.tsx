@@ -14,9 +14,10 @@ import { colors } from '@/constants';
 interface Props {
   visible: boolean;
   onSubmit: (name: string) => void;
+  onSignIn?: () => void;
 }
 
-export default function NamePromptModal({ visible, onSubmit }: Props) {
+export default function NamePromptModal({ visible, onSubmit, onSignIn }: Props) {
   const [name, setName] = useState('');
 
   useEffect(() => {
@@ -62,6 +63,15 @@ export default function NamePromptModal({ visible, onSubmit }: Props) {
           >
             <Text style={styles.submitText}>Continue</Text>
           </TouchableOpacity>
+
+          {onSignIn ? (
+            <TouchableOpacity onPress={onSignIn} activeOpacity={0.7} style={styles.signInRow}>
+              <Text style={styles.signInPrompt}>
+                Already have an account?{' '}
+                <Text style={styles.signInLink}>Sign in</Text>
+              </Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
       </KeyboardAvoidingView>
     </Modal>
@@ -122,5 +132,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: colors.matteBlack,
+  },
+  signInRow: {
+    marginTop: 16,
+    alignItems: 'center',
+  },
+  signInPrompt: {
+    fontSize: 14,
+    color: '#9999AA',
+    textAlign: 'center',
+  },
+  signInLink: {
+    fontWeight: '700',
+    color: colors.primaryGold,
   },
 });
